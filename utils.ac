@@ -1,0 +1,216 @@
+
+SVN_USERNAME=dingxiaohua160423
+SVN_PASSWD=871013
+
+DOC_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/doc
+FRAMEWORK_SVN_PATH=svn://10.1.16.88/vrvim/trunk/framework
+SRC_C_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c
+VRV_CPLUS_SERVER_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/vrv-cplus-server
+VRV_THRIFT_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/server/thrift
+VRV_UPLOAD_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/imageserver/vrv_new_upload/upload
+VRV_NGX_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/ngx
+VRV_NGX_HTML_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/server/html
+VRV_AG_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/vrv-ag-golang
+VRV_AP2_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/vrv-ap-server
+VRV_SOA_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/server/soa
+
+VRV_PROJ_LOCAL_PATH=/home/cbuilder/vrv/vrv_im_package_proj
+VRV_THRIFT_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/thrift/vrv-thrift
+DOC_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/doc
+FRAMEWORK_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/framework
+SRC_C_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/srv_c
+
+#apns
+APNS_BASE_LOCAL_PATH=$SRC_C_LOCAL_PATH/vrv-apns-new
+#APNS_LOCAL_PATH=$APNS_BASE_LOCAL_PATH/vrv-apns
+APNS_LOCAL_PATH=$APNS_BASE_LOCAL_PATH/agh_vrv_apns
+APNS_CONFIG_PROJ_LOCAL_PATH=$APNS_BASE_LOCAL_PATH/apns_conf
+APNS_CFG_CONFIG_LOCAL_PATH=$APNS_CONFIG_PROJ_LOCAL_PATH/config
+APNS_BUILD_LOCAL_PATH=$APNS_LOCAL_PATH/build
+APNS_CONFIG_LOCAL_PATH=$APNS_LOCAL_PATH/config
+
+#ap
+VRV_CPLUS_LOCAL_PATH=$SRC_C_LOCAL_PATH/vrv-cplus-server
+VRV_CPLUS_BUILD_PATH=$VRV_CPLUS_LOCAL_PATH/build
+VRV_AP_LOCAL_PATH=$VRV_CPLUS_LOCAL_PATH/vrv_server
+VRV_AP_CONFIG_LOCAL_PATH=$VRV_AP_LOCAL_PATH/config
+
+#prelogin
+VRV_PRELOGIN_LOACAL_PATH=$SRC_C_LOCAL_PATH/vrv-prelogin-golang
+VRV_PRELOGIN_CONFIG_LOACAL_PATH=$VRV_PRELOGIN_LOACAL_PATH/config
+
+#upload
+VRV_UPLOAD_LOCAL_PATH=$SRC_C_LOCAL_PATH/upload_tmp
+VRV_UPLOAD_BUILD_PATH=$SRC_C_LOCAL_PATH/upload_tmp/build
+VRV_UPLOAD_CONFIG_PATH=$VRV_UPLOAD_LOCAL_PATH/conf
+
+#ngx
+VRV_NGX_CONFIG_FILE_LOCAL_PATH=$SRC_C_LOCAL_PATH/ngx
+VRV_NGX_CONFIG_FILE_LOCAL_DST_PATH=$SRC_C_LOCAL_PATH/ngx_dst
+VRV_NGX_HTML_LOCAL_PATH=$SRC_C_LOCAL_PATH/ngx/nginx/html
+VRV_NGX_80_HTML_LOCAL_PATH=$VRV_NGX_CONFIG_FILE_LOCAL_PATH/html_80
+VRV_NGX_AP_HTML_LOCAL_PATH=$VRV_NGX_CONFIG_FILE_LOCAL_PATH/html_ap
+
+#ag
+VRV_AG_LOCAL_PATH=$SRC_C_LOCAL_PATH/vrv-ag-golang
+VRV_AG_CONFIG_LOACAL_PATH=$VRV_AG_LOCAL_PATH/config
+
+#ap2.0
+VRV_AP2_LOCAL_PATH=$SRC_C_LOCAL_PATH/vrv-ap-server
+VRV_AP2_AP_LOCAL_PATH=$VRV_AP2_LOCAL_PATH/ap
+VRV_AP2_CONFIG_LOCAL_PATH=$VRV_AP2_AP_LOCAL_PATH/config
+VRV_AP2_BUILD_PATH=$VRV_AP2_AP_LOCAL_PATH/build
+
+#badword
+VRV_BADWORD_LOCAL_PATH=$SRC_C_LOCAL_PATH/server/soa
+VRV_BADWORD_DOCS_LOCAL_PATH=$VRV_BADWORD_LOCAL_PATH/docs
+VRV_BADWORD_LIB_LOCAL_PATH=$VRV_BADWORD_LOCAL_PATH/lib
+VRV_BADWORD_BUILD_PATH=$VRV_BADWORD_LOCAL_PATH/build
+VRV_BADWORD_BIN_PATH=$VRV_BADWORD_BUILD_PATH/bin
+
+
+#exec name
+APNS_CONFIG_THRIFT_FILENAME=apns_serv.thrift
+APNS_EXEC_NAME=APNS
+APNS_CFG_EXEC_NAME=apns_conf
+APNS_AGENT_EXEC_NAME=agent_vrv
+AP_EXEC_NAME=ap_vrv
+PRELOGIN_EXEC_NAME=vrv-prelogin-golang  
+UPLOAD_EXEC_NAME=upload.cgi 
+AG_EXEC_NAME=ag_vrv 
+BADWORD_EXEC_NAME=badword
+
+#version
+PROJ_VERSION=$2
+
+#out path
+OUT_LOCAL_AP2_PATH=$VRV_AP2_BUILD_PATH/ap
+OUT_LOCAL_PRELOGIN_PATH=$VRV_PRELOGIN_LOACAL_PATH/prelogin
+OUT_LOCAL_UPLOAD_PATH=$VRV_UPLOAD_BUILD_PATH/upload
+OUT_LOCAL_AG_PATH=$VRV_AG_LOCAL_PATH/ag
+OUT_LOCAL_APNS_PATH=$APNS_BUILD_LOCAL_PATH/apns
+OUT_LOCAL_APNS_CFG_PATH=$APNS_CONFIG_PROJ_LOCAL_PATH/apnscfg
+OUT_LOCAL_BADWORD_PATH=$VRV_BADWORD_BUILD_PATH/badword
+
+#remote path
+REMOTE_PATH=/data/packages/server/$1/$(date +%Y%m%d)_$3/vrv
+
+#result.txt
+SCRIPT_EXEC_PATH=/home/cbuilder/workspace/cbuilder
+EXEC_OUT_FILE_PATH=$SCRIPT_EXEC_PATH/result.txt
+
+#cpu number
+COMPILE_CPU_NUMBER=4
+
+COMMIT_REMOTE_IP_ADDR=172.16.8.182
+COMMIT_REMOTE_USER=builder
+
+#log tmp
+LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_package_log.log
+APNS_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_apns_compile.log
+AP_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_ap_compile.log
+PRELOGIN_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_prelogin_compile.log
+UPLOAD_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_upload_compile.log
+AG_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_ag_comile.log
+BADWORD_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_badword_comile.log
+
+
+function CreateRemotePath() {
+    ssh -p 10022 $COMMIT_REMOTE_USER@$COMMIT_REMOTE_IP_ADDR "mkdir -p $REMOTE_PATH"
+    [ $? -ne 0 ] && {
+        echo " mkdir $REMOTE_PATH failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
+        echo "0" > $EXEC_OUT_FILE_PATH
+        exit 0
+    }
+}
+
+function UpdateThrift() {
+        cd $DOC_LOCAL_PATH
+        [[ $PROJ_VERSION -eq 0 ]] && {
+            svn update
+            PROJ_VERSION=$(svn info | grep Revision: |awk '{print $2}') 
+        } || svn update -r $PROJ_VERSION
+       
+        echo "doc version $PROJ_VERSION" >> $LOG_INFO_LOCAL_PATH
+
+        cd $VRV_THRIFT_LOCAL_PATH
+        [[ $PROJ_VERSION -eq 0 ]] && {
+            svn update
+            PROJ_VERSION=$(svn info | grep Revision: |awk '{print $2}') 
+        } || svn update -r $PROJ_VERSION
+
+        echo "thrift version $PROJ_VERSION" >> $LOG_INFO_LOCAL_PATH
+}
+
+function UpdateInner() {
+    svn update
+    [ $? -ne 0 ] && {
+        echo " svn is locked in Time: $(data +%F-%T) " >> $LOG_INFO_LOCAL_PATH
+        svn cleanup
+        svn update
+
+        [ $? -ne 0 ] && {
+            echo " svn is also locked in Time: $(data +%F-%T) !!! " >> $LOG_INFO_LOCAL_PATH
+        }
+    }
+}
+
+function UpdateNgxHtml() {
+	#cd $VRV_NGX_HTML_LOCAL_PATH
+
+    #update the laset
+    #svn update 
+
+    cd $VRV_NGX_80_HTML_LOCAL_PATH
+    #update the laset
+    UpdateInner 
+
+    cd $VRV_NGX_AP_HTML_LOCAL_PATH
+
+    UpdateInner 
+
+    cd $VRV_NGX_HTML_LOCAL_PATH
+    cp -rf $VRV_NGX_80_HTML_LOCAL_PATH/* $VRV_NGX_AP_HTML_LOCAL_PATH/* $VRV_NGX_HTML_LOCAL_PATH
+}
+
+function UpdateProj() {
+    [[ $PROJ_VERSION -eq 0 ]] && { 
+        svn update
+        PROJ_VERSION=$(svn info | grep Revision: |awk '{print $2}') 
+
+    } || svn update -r $PROJ_VERSION
+}
+
+
+
+
+#create dir 
+[ ! -d $VRV_PROJ_LOCAL_PATH ] && {
+    mkdir -p $VRV_PROJ_LOCAL_PATH
+    mkdir -p $VRV_THRIFT_LOCAL_PATH
+    mkdir -p $DOC_LOCAL_PATH
+    mkdir -p $FRAMEWORK_LOCAL_PATH
+    mkdir -p $SRC_C_LOCAL_PATH
+    mkdir -p $VRV_UPLOAD_SVN_PATH
+    mkdir -p $VRV_AG_LOCAL_PATH
+
+    #check out
+    svn co $DOC_SVN_PATH $DOC_LOCAL_PATH --username $SVN_USERNAME --password $SVN_PASSWD
+    svn co $VRV_THRIFT_SVN_PATH $VRV_THRIFT_LOCAL_PATH --username $SVN_USERNAME --password $SVN_PASSWD
+    svn co $FRAMEWORK_SVN_PATH $FRAMEWORK_LOCAL_PATH --username $SVN_USERNAME --password $SVN_PASSWD
+    svn co $SRC_C_SVN_PATH $SRC_C_LOCAL_PATH --username $SVN_USERNAME --password $SVN_PASSWD
+    svn co $VRV_UPLOAD_SVN_PATH $VRV_UPLOAD_LOCAL_PATH --username $SVN_USERNAME --password $SVN_PASSWD
+    svn co $VRV_AG_SVN_PATH $VRV_AG_LOCAL_PATH --username $SVN_USERNAME --password $SVN_PASSWD
+
+    mkdir -p $VRV_NGX_HTML_LOCAL_PATH
+
+    mkdir -p $VRV_NGX_80_HTML_LOCAL_PATH
+    svn co $VRV_NGX_HTML_SVN_PATH $VRV_NGX_80_HTML_LOCAL_PATH --username $SVN_USERNAME --password $SVN_PASSWD
+
+    mkdir -p $VRV_NGX_AP_HTML_LOCAL_PATH
+    svn co $VRV_NGX_AP_HTML_SVN_PATH $VRV_NGX_AP_HTML_LOCAL_PATH --username $SVN_USERNAME --password $SVN_PASSWD
+   # mkdir -p $VRV_NGX_HTML_LOCAL_PATH
+   # svn co $VRV_NGX_HTML_SVN_PATH $VRV_NGX_HTML_LOCAL_PATH --username $SVN_USERNAME --password $SVN_PASSWD
+}
+
+echo $REMOTE_PATH
