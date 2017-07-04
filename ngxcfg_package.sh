@@ -18,6 +18,7 @@ function Commit_Ngx_Config_File() {
     [ $? -ne 0 ] && {
         echo " commit ngx config files failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
+        exit 1
     } || {
         echo " commit ngx config files success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "1" > $EXEC_OUT_FILE_PATH
@@ -32,7 +33,7 @@ function Commit_Ngx_Config_File() {
     UpdateProj
 
     UpdateNgxHtml
-    echo "svn update ngx config file to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH
+    echo "svn update ngx config file to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH 2>&1
 
     Commit_Ngx_Config_File
 

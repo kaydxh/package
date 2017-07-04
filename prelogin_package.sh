@@ -5,24 +5,21 @@
 . utils.ac $1 $2 $3
 
 function Compile_PreLogin_Proj() {
-    rm -rf $OUT_LOCAL_PRELOGIN_PATH/*
+    cd $VRV_PRELOGIN_LOACAL_PATH
 
-    export GOPATH=`pwd`
-    go  get github.com/cihub/seelog
-    go  get github.com/gorilla/mux
-    go  get github.com/howeyc/fsnotify
-    echo " start make prelogin in Time: $(date +%F-%T) " > $PRELOGIN_LOG_INFO_LOCAL_PATH
-    go  build -x >> $PRELOGIN_LOG_INFO_LOCAL_PATH 2>&1
-
+    echo " start make prelogin in Time: $(date +%F-%T) " > $PRELOGIN_LOG_INFO_LOCAL_PATH 2>&1
+    bash $VRV_PRELOGIN_LOACAL_PATH/makefile >> $PRELOGIN_LOG_INFO_LOCAL_PATH 2>&1
     [ $? -ne 0 ] && {
         echo " make prelogin project failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
     [ ! -d $OUT_LOCAL_PRELOGIN_PATH ] && {
         mkdir -p $OUT_LOCAL_PRELOGIN_PATH
     }
+
+    rm -rf $OUT_LOCAL_PRELOGIN_PATH/*
 
     mv $VRV_PRELOGIN_LOACAL_PATH/$PRELOGIN_EXEC_NAME $OUT_LOCAL_PRELOGIN_PATH/prelogin
     cp -rf $VRV_PRELOGIN_CONFIG_LOACAL_PATH/* $OUT_LOCAL_PRELOGIN_PATH
@@ -34,6 +31,7 @@ function Commit_PreLogin_Exec() {
     [ $? -ne 0 ] && {
         echo " commit prelogin exec failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
+        exit 1
     } || {
         echo " commit prelogin exec success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "1" > $EXEC_OUT_FILE_PATH
@@ -47,7 +45,7 @@ function Commit_PreLogin_Exec() {
     cd $VRV_PRELOGIN_LOACAL_PATH
 
     UpdateProj
-    echo "svn update prelogin project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH
+    echo "svn update prelogin project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH 2>&1
 
     Compile_PreLogin_Proj
     Commit_PreLogin_Exec

@@ -9,30 +9,24 @@
 function Compile_APNS_Proj() {
     #cd $APNS_CONFIG_LOCAL_PATH
     #cp -rf $SRC_C_LOCAL_PATH/vrv-apns_new_server/*  $APNS_LOCAL_PATH
-    cp -rf $APNS_CONFIG_LOCAL_PATH/$APNS_CONFIG_THRIFT_FILENAME $APNS_LOCAL_PATH
+    #cp -rf $APNS_CONFIG_LOCAL_PATH/$APNS_CONFIG_THRIFT_FILENAME $APNS_LOCAL_PATH
 
     [ ! -d $APNS_BUILD_LOCAL_PATH ] && {
         mkdir -p $APNS_BUILD_LOCAL_PATH
         #echo  $APNS_BUILD_LOCAL_PATH >> $APNS_LOG_INFO_LOCAL_PATH
     }
 
-    cd $APNS_BUILD_LOCAL_PATH  && rm -rf * 
+    cd $APNS_BUILD_LOCAL_PATH  && rm -rf $APNS_BUILD_LOCAL_PATH/*
 
-    [ $? -ne 0 ] && {
-        echo " make apns build env failed in Time: $(date +%F-%T) " > $APNS_LOG_INFO_LOCAL_PATH
-        echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
-    } 
-    
     cd $APNS_LOCAL_PATH
-    echo " start make apns in Time: $(date +%F-%T) " > $APNS_LOG_INFO_LOCAL_PATH
+    echo " start make apns in Time: $(date +%F-%T) " > $APNS_LOG_INFO_LOCAL_PATH 2>&1
 
     chmod a+x $APNS_LOCAL_PATH/gencpp.sh
     bash $APNS_LOCAL_PATH/gencpp.sh >> $APNS_LOG_INFO_LOCAL_PATH 2>&1
     [ $? -ne 0 ] && {
         echo " apns project gencpp failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
     #    echo "0" > $EXEC_OUT_FILE_PATH
-    #    exit 0
+        exit 1
     }
 
     cd $APNS_BUILD_LOCAL_PATH 
@@ -41,7 +35,7 @@ function Compile_APNS_Proj() {
     [ $? -ne 0 ] && {
         echo " make apns project failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
     echo " make apns project success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
@@ -50,6 +44,9 @@ function Compile_APNS_Proj() {
         mkdir -p $OUT_LOCAL_APNS_PATH
     }
 
+    #clear out dir 
+    rm -rf $OUT_LOCAL_APNS_PATH/*
+
     mv $APNS_BUILD_LOCAL_PATH/$APNS_EXEC_NAME $OUT_LOCAL_APNS_PATH
     cp -rf $APNS_CONFIG_LOCAL_PATH/* $OUT_LOCAL_APNS_PATH
 }
@@ -57,12 +54,12 @@ function Compile_APNS_Proj() {
 function Compile_APNS_Cfg_Proj() {
     cd $APNS_CONFIG_PROJ_LOCAL_PATH
     chmod a+x $APNS_CONFIG_PROJ_LOCAL_PATH/deps $APNS_CONFIG_PROJ_LOCAL_PATH/install
-    $APNS_CONFIG_PROJ_LOCAL_PATH/install > $APNS_LOG_INFO_LOCAL_PATH 2>&1
+    bash $APNS_CONFIG_PROJ_LOCAL_PATH/install > $APNS_LOG_INFO_LOCAL_PATH 2>&1
 
     [ $? -ne 0 ] && {
         echo " make apnscfg project failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
     echo " make apns_cfg project success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
@@ -83,6 +80,7 @@ function Commit_APNS_Exec() {
     [ $? -ne 0 ] && {
         echo " commit apns exec failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
+        exit 1
     } || {
         echo " commit apns exec success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "1" > $EXEC_OUT_FILE_PATH
@@ -95,6 +93,7 @@ function Commit_APNS_Cfg_Exec() {
     [ $? -ne 0 ] && {
         echo " commit apns_cfg exec failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
+        exit 1
     } || {
         echo " commit apns_cfg exec success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "1" > $EXEC_OUT_FILE_PATH
@@ -108,12 +107,12 @@ function Commit_APNS_Cfg_Exec() {
     cd $APNS_BASE_LOCAL_PATH
 
     UpdateProj
-    echo "svn update apns project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH
+    echo "svn update apns project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH 2>&1
     Compile_APNS_Proj
     Commit_APNS_Exec
 
     #add apns_cfg
     cd $APNS_CONFIG_PROJ_LOCAL_PATH
-    echo "svn update apns_cfg project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH
+    echo "svn update apns_cfg project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH 2>&1
     Compile_APNS_Cfg_Proj
     Commit_APNS_Cfg_Exec

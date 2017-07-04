@@ -7,12 +7,12 @@
 function Compile_Ag_Proj() {
     cd $VRV_AG_LOCAL_PATH
     chmod a+x $VRV_AG_LOCAL_PATH/deps $VRV_AG_LOCAL_PATH/install
-    $VRV_AG_LOCAL_PATH/install > $AG_LOG_INFO_LOCAL_PATH 2>&1
+    bash $VRV_AG_LOCAL_PATH/install > $AG_LOG_INFO_LOCAL_PATH 2>&1
 
     [ $? -ne 0 ] && {
         echo " make ag project failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
     echo " make ag project success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
@@ -33,6 +33,7 @@ function Commit_Ag_Exec() {
     [ $? -ne 0 ] && {
         echo " commit ag exec failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
+        exit 1
     } || {
         echo " commit ag exec success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "1" > $EXEC_OUT_FILE_PATH
@@ -47,7 +48,7 @@ function Commit_Ag_Exec() {
     UpdateProj
 
     UpdateThrift
-    echo "svn update ag project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH\
+    echo "svn update ag project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH 2>&1
 
     Compile_Ag_Proj
     Commit_Ag_Exec

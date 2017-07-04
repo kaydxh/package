@@ -18,7 +18,7 @@ function Compile_BadWord_Proj() {
     [ $? -ne 0 ] && {
         echo " make badword build env failed in Time: $(date +%F-%T) " >> $BADWORD_LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
     echo " start make badword in Time: $(date +%F-%T) " >> $BADWORD_LOG_INFO_LOCAL_PATH
@@ -27,7 +27,7 @@ function Compile_BadWord_Proj() {
     [ $? -ne 0 ] && {
         echo " make badword project failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
     echo " make badword project success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
@@ -37,7 +37,7 @@ function Compile_BadWord_Proj() {
     }
 
     #clear out dir 
-    #rm -rf $OUT_LOCAL_BADWORD_PATH/*
+    rm -rf $OUT_LOCAL_BADWORD_PATH/*
 
     mv $VRV_BADWORD_BIN_PATH/$BADWORD_EXEC_NAME $OUT_LOCAL_BADWORD_PATH
     cp -rf $VRV_BADWORD_DOCS_LOCAL_PATH/* $OUT_LOCAL_BADWORD_PATH
@@ -50,6 +50,7 @@ function Commit_BadWord_Exec() {
     [ $? -ne 0 ] && {
         echo " commit badword exec failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
+        exit 1
     } || {
         echo " commit badword exec success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "1" > $EXEC_OUT_FILE_PATH

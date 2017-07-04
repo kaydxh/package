@@ -9,12 +9,13 @@ VRV_CPLUS_SERVER_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/vrv-cplus-server
 VRV_THRIFT_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/server/thrift
 VRV_UPLOAD_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/imageserver/vrv_new_upload/upload
 VRV_NGX_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/ngx
+VRV_NGX_AP_HTML_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/ngx/ngx_ap/html
 VRV_NGX_HTML_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/server/html
 VRV_AG_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/vrv-ag-golang
 VRV_AP2_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/vrv-ap-server
 VRV_SOA_SVN_PATH=svn://10.1.16.88/vrvim/trunk/im/srv_c/server/soa
 
-VRV_PROJ_LOCAL_PATH=/home/cbuilder/vrv/vrv_im_package_proj
+VRV_PROJ_LOCAL_PATH=/home/cbuilder/vrv/im_server
 VRV_THRIFT_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/thrift/vrv-thrift
 DOC_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/doc
 FRAMEWORK_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/framework
@@ -22,8 +23,8 @@ SRC_C_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/srv_c
 
 #apns
 APNS_BASE_LOCAL_PATH=$SRC_C_LOCAL_PATH/vrv-apns-new
-#APNS_LOCAL_PATH=$APNS_BASE_LOCAL_PATH/vrv-apns
-APNS_LOCAL_PATH=$APNS_BASE_LOCAL_PATH/agh_vrv_apns
+APNS_LOCAL_PATH=$APNS_BASE_LOCAL_PATH/vrv-apns
+#APNS_LOCAL_PATH=$APNS_BASE_LOCAL_PATH/agh_vrv_apns
 APNS_CONFIG_PROJ_LOCAL_PATH=$APNS_BASE_LOCAL_PATH/apns_conf
 APNS_CFG_CONFIG_LOCAL_PATH=$APNS_CONFIG_PROJ_LOCAL_PATH/config
 APNS_BUILD_LOCAL_PATH=$APNS_LOCAL_PATH/build
@@ -68,6 +69,21 @@ VRV_BADWORD_LIB_LOCAL_PATH=$VRV_BADWORD_LOCAL_PATH/lib
 VRV_BADWORD_BUILD_PATH=$VRV_BADWORD_LOCAL_PATH/build
 VRV_BADWORD_BIN_PATH=$VRV_BADWORD_BUILD_PATH/bin
 
+#minilinkdood
+VRV_MINILINKDOOD_LOCAL_PATH=$SRC_C_LOCAL_PATH/vrv-minilinkdood-server
+VRV_LINKDOOD_CONFIG_LOCAL_PATH=$VRV_MINILINKDOOD_LOCAL_PATH/conf
+VRV_LINKDOOD_BUILD_PATH=$VRV_MINILINKDOOD_LOCAL_PATH/build
+VRV_LINKDOOD_BIN_PATH=$VRV_LINKDOOD_BUILD_PATH/bin
+
+
+VRV_LINKDOODWEB_LOCAL_SRC_PATH=$VRV_MINILINKDOOD_LOCAL_PATH/src
+VRV_LINKDOODWEB_LOCAL_PATH=$VRV_LINKDOODWEB_LOCAL_SRC_PATH/miniweb
+VRV_LINKDOODWEB_CONFIG_PATH=$VRV_LINKDOODWEB_LOCAL_SRC_PATH/config
+VRV_LINKDOODWEB_BUILD_PATH=$VRV_LINKDOODWEB_LOCAL_SRC_PATH/build
+
+VRV_APNSAGENT_LOCAL_PATH=$VRV_MINILINKDOOD_LOCAL_PATH/servers/apnsAgent
+VRV_APNSAGENT_CONDIG_LOCAL_PATH=$VRV_APNSAGENT_LOCAL_PATH/conf
+
 
 #exec name
 APNS_CONFIG_THRIFT_FILENAME=apns_serv.thrift
@@ -79,6 +95,9 @@ PRELOGIN_EXEC_NAME=vrv-prelogin-golang
 UPLOAD_EXEC_NAME=upload.cgi 
 AG_EXEC_NAME=ag_vrv 
 BADWORD_EXEC_NAME=badword
+LINKDOOD_EXEC_NAME=iim
+LINKDOODWEB_EXEC_NAME=miniweb
+APNSAGENT_EXEC_NAME=apnsAgent
 
 #version
 PROJ_VERSION=$2
@@ -91,6 +110,11 @@ OUT_LOCAL_AG_PATH=$VRV_AG_LOCAL_PATH/ag
 OUT_LOCAL_APNS_PATH=$APNS_BUILD_LOCAL_PATH/apns
 OUT_LOCAL_APNS_CFG_PATH=$APNS_CONFIG_PROJ_LOCAL_PATH/apnscfg
 OUT_LOCAL_BADWORD_PATH=$VRV_BADWORD_BUILD_PATH/badword
+
+OUT_LOCAL_MINILINKDOOD_PATH=$VRV_MINILINKDOOD_LOCAL_PATH/miniLinkdood
+OUT_LOCAL_LINKDOOD_PATH=$OUT_LOCAL_MINILINKDOOD_PATH/linkdood
+OUT_LOCAL_LINKDOODWEB_PATH=$OUT_LOCAL_MINILINKDOOD_PATH/linkdoodWeb
+OUT_LOCAL_APNSAGENT_PATH=$OUT_LOCAL_MINILINKDOOD_PATH/apnsAgent
 
 #remote path
 REMOTE_PATH=/data/packages/server/$1/$(date +%Y%m%d)_$3/vrv
@@ -111,8 +135,9 @@ APNS_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_apns_compile.log
 AP_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_ap_compile.log
 PRELOGIN_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_prelogin_compile.log
 UPLOAD_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_upload_compile.log
-AG_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_ag_comile.log
-BADWORD_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_badword_comile.log
+AG_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_ag_compile.log
+BADWORD_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_badword_compile.log
+MINILINKDOOD_LOG_INFO_LOCAL_PATH=$VRV_PROJ_LOCAL_PATH/vrv_minilinkdood_compile.log
 
 
 function CreateRemotePath() {
@@ -120,7 +145,7 @@ function CreateRemotePath() {
     [ $? -ne 0 ] && {
         echo " mkdir $REMOTE_PATH failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     }
 }
 
@@ -175,14 +200,27 @@ function UpdateNgxHtml() {
 
 function UpdateProj() {
     [[ $PROJ_VERSION -eq 0 ]] && { 
-        svn update
+        UpdateInner 
         PROJ_VERSION=$(svn info | grep Revision: |awk '{print $2}') 
 
-    } || svn update -r $PROJ_VERSION
+    } || {
+        svn update -r $PROJ_VERSION
+        [ $? -ne 0 ] && {
+            echo " svn is locked in Time: $(data +%F-%T) " >> $LOG_INFO_LOCAL_PATH
+            svn cleanup
+            svn update -r $PROJ_VERSION
+
+            [ $? -ne 0 ] && {
+                echo " svn is also locked in Time: $(data +%F-%T) !!! " >> $LOG_INFO_LOCAL_PATH
+
+                CURPWD=`pwd`
+                cd ..
+                svn cleanup
+                cd $CURPWD
+            }
+        }
+    }
 }
-
-
-
 
 #create dir 
 [ ! -d $VRV_PROJ_LOCAL_PATH ] && {

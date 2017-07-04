@@ -15,16 +15,16 @@ function Compile_UpLoad_Proj() {
     [ $? -ne 0 ] && {
         echo " make upload build env failed in Time: $(date +%F-%T) " > $UPLOAD_LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
-    echo " start make upload in Time: $(date +%F-%T) " > $UPLOAD_LOG_INFO_LOCAL_PATH
+    echo " start make upload in Time: $(date +%F-%T) " > $UPLOAD_LOG_INFO_LOCAL_PATH 2>&1
     cmake $VRV_UPLOAD_LOCAL_PATH && make clean && make -j $COMPILE_CPU_NUMBER >> $UPLOAD_LOG_INFO_LOCAL_PATH 2>&1
 
     [ $? -ne 0 ] && {
         echo " make upload project failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
     echo " make upload project success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
@@ -32,6 +32,8 @@ function Compile_UpLoad_Proj() {
     [ ! -d $OUT_LOCAL_UPLOAD_PATH ] && {
         mkdir -p $OUT_LOCAL_UPLOAD_PATH
     }
+
+    rm -rf $OUT_LOCAL_UPLOAD_PATH/*
 
     mv $VRV_UPLOAD_BUILD_PATH/$UPLOAD_EXEC_NAME $OUT_LOCAL_UPLOAD_PATH/upload
     cp -rf $VRV_UPLOAD_CONFIG_PATH $OUT_LOCAL_UPLOAD_PATH
@@ -43,6 +45,7 @@ function Commit_UpLoad_Exec() {
     [ $? -ne 0 ] && {
         echo " commit upload exec failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
+        exit 1
     } || {
         echo " commit upload exec success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "1" > $EXEC_OUT_FILE_PATH
@@ -57,7 +60,7 @@ function Commit_UpLoad_Exec() {
     cd $VRV_UPLOAD_LOCAL_PATH
 
     UpdateProj
-    echo "svn update upload project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH
+    echo "svn update upload project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH 2>&1
 
     Compile_UpLoad_Proj
     Commit_UpLoad_Exec

@@ -15,12 +15,12 @@ function Compile_AP2_Proj() {
          mkdir -p $VRV_AP2_BUILD_PATH
     }
 
-    cd $VRV_AP2_BUILD_PATH && rm -rf * 
+    cd $VRV_AP2_BUILD_PATH && rm -rf $VRV_AP2_BUILD_PATH/*
 
     [ $? -ne 0 ] && {
         echo " make ap2.0 build env failed in Time: $(date +%F-%T) " >> $AP_LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
     echo " start make ap2.0 in Time: $(date +%F-%T) " >> $AP_LOG_INFO_LOCAL_PATH
@@ -29,7 +29,7 @@ function Compile_AP2_Proj() {
     [ $? -ne 0 ] && {
         echo " make ap2.0 project failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
-        exit 0
+        exit 1
     } 
 
     echo " make ap2.0 project success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
@@ -39,9 +39,9 @@ function Compile_AP2_Proj() {
     }
 
     #clear out dir 
-    #rm -rf $OUT_LOCAL_AP2_PATH/*
+    rm -rf $OUT_LOCAL_AP2_PATH/*
 
-    mv $VRV_AP2_BUILD_PATH/$AP_EXEC_NAME $OUT_LOCAL_AP2_PATH
+    mv $VRV_AP2_BUILD_PATH/$AP_EXEC_NAME $OUT_LOCAL_AP2_PATH/ap
     cp -rf $VRV_AP2_CONFIG_LOCAL_PATH/* $OUT_LOCAL_AP2_PATH
 }
 
@@ -51,6 +51,7 @@ function Commit_AP2_Exec() {
     [ $? -ne 0 ] && {
         echo " commit ap2.0 exec failed in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "0" > $EXEC_OUT_FILE_PATH
+        exit 1
     } || {
         echo " commit ap2.0 exec success in Time: $(date +%F-%T) " >> $LOG_INFO_LOCAL_PATH
         echo "1" > $EXEC_OUT_FILE_PATH
@@ -65,7 +66,7 @@ function Commit_AP2_Exec() {
     UpdateProj
 
     UpdateThrift
-    echo "svn update ap2.0 project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH
+    echo "svn update ap2.0 project to version: $PROJ_VERSION in Time: $(date +%F-%T)" >> $LOG_INFO_LOCAL_PATH 2>&1
 
     Compile_AP2_Proj
     Commit_AP2_Exec
